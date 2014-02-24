@@ -42,8 +42,8 @@
 \end{frame}
 \begin{frame}
   \frametitle{Graph Isomorphism (GI) Problem}
-  Given two graphs, determine whether one can be obtained from the other by
-  relabeling the vertices. If so, the graphs are \alert{isomorphic}.
+  Given a pair of graphs, determine whether one can be transformed into the
+  other by relabeling the vertices. If so, the graphs are \alert{isomorphic}.
   \begin{columns}[t]
     \column{0.25\textwidth}
     \begin{block}{$G=(E_G,\,V_G)$}
@@ -75,9 +75,12 @@
   \end{columns}
 \end{frame}
 \begin{frame}
-  \frametitle{Properties of the GI Problem}
+  \frametitle{Features of the GI Problem}
   \begin{itemize}
-    \item Complexity class \alert{NP}, but unlikely to be NP-complete
+    \item Special cases can be solved efficiently by classical algorithms
+    \item But the best known general algorithms are exponentially complex
+    \item Complexity class \alert{NP}, but unlikely to be NP-complete (the same
+      is believed of factoring)
   \end{itemize}
 \end{frame}
 \begin{frame}
@@ -115,15 +118,62 @@
     \path[->]<2-> (n1) edge [out=0,in=90] (t1);
     \path[->]<3-> (n2) edge [out=0,in=-90] (t2);
   \end{tikzpicture}
+
   \begin{definition}<4>
-    $G_1,\,G_2$ \alert{co-Ising} $\iff$ $H(G_1)$, $H(G_2)$ co-spectral for all $h$
+    $G_1,\,G_2$ \alert{co-Ising} $\iff$ $H(G_1)$, $H(G_2)$
+    co-spectral for all $h$
   \end{definition}
 \end{frame}
 \begin{frame}
-  \frametitle{Method}
+  \frametitle{Adiabatic Quantum Computation (AQC)}
+  \begin{itemize}
+    \item Driver Hamiltonian
+      \tikz[na]\node [coordinate] (n3) {};
+  \end{itemize}
   \begin{equation*}
-    H(G) = s H_p(G) + (1-s) \sum \sigma^x_i
+    H = (1-s)\,
+    \tikz[baseline]{ \node[fill=blue!20,ellipse,anchor=base] (t3) {$H_d$}; }
+    + s\,
+    \tikz[baseline]{ \node[fill=red!20,ellipse,anchor=base] (t4) {$H_p$}; }
   \end{equation*}
+  \begin{itemize}
+    \item Problem Hamiltonian
+      \tikz[na]\node [coordinate] (n4) {};
+  \end{itemize}
+  \begin{enumerate}
+    \item Prepare system in ground state of $H_d$ (easy).
+    \item Take $s$ from 0 to 1 \alert{adiabatically}.
+    \item Ground state of $H_p \longrightarrow$
+      solution of optimization problem
+  \end{enumerate}
+  \begin{tikzpicture}[overlay]
+    \path[->] (n3) edge [out=0,in=90] (t3);
+    \path[->] (n4) edge [out=0,in=-90] (t4);
+  \end{tikzpicture}
+\end{frame}
+\begin{frame}
+  \frametitle{Quantum algorithm for GI}
+  \begin{itemize}
+    \item Transverse field driver Hamiltonian
+  \end{itemize}
+  \begin{equation*}
+    H_d = \frac{1}{2} \sum \sigma^x_i
+  \end{equation*}
+  \begin{itemize}
+    \item Ising antiferromagnet problem Hamiltonian
+  \end{itemize}
+  \begin{equation*}
+    H_p(G) = \sum_{(i,\,j) \in E} \sigma^z_i \sigma^z_j
+    - h \sum \sigma^z_i
+  \end{equation*}
+  \begin{itemize}
+    \item Conjecture: \alert{Measurements of the ground state should
+      distinguish non-isomorphic graphs.}
+    \item But the \alert{ground state of $H_p$ is insufficient} to distinguish
+      all pairs of graphs (e.g. co-Ising).
+    \item Measurements in the \alert{quantum regime}, $0<s<1$, are the most
+      promising.
+  \end{itemize}
 \end{frame}
 \begin{frame}
   \frametitle{Results}
