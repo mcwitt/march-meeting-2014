@@ -154,28 +154,36 @@
 \begin{frame}
   \frametitle{Quantum algorithm for GI}
   \begin{itemize}
+    \item \alert{Ising antiferromagnet} problem Hamiltonian
     \item Transverse field driver Hamiltonian
   \end{itemize}
   \begin{equation*}
-    H_d = \frac{1}{2} \sum \sigma^x_i
-  \end{equation*}
-  \begin{itemize}
-    \item Ising antiferromagnet problem Hamiltonian
-  \end{itemize}
-  \begin{equation*}
-    H_p(G) = \sum_{(i,\,j) \in E} \sigma^z_i \sigma^z_j
+    H = (1-s) \frac{1}{2} \sum \sigma^x_i
+    + s \left(
+    \sum_{(i,\,j) \in E} \sigma^z_i \sigma^z_j
     - h \sum \sigma^z_i
+  \right)
   \end{equation*}
   \begin{itemize}
     \item Conjecture: \alert{Measurements of the ground state should
       distinguish non-isomorphic graphs.}
     \item But the \alert{ground state of $H_p$ is insufficient} to distinguish
-      all pairs of graphs (e.g. co-Ising).
-    \item Measurements in the \alert{quantum regime}, $0<s<1$, are the most
-      promising.
+      all pairs of graphs (e.g. co-Ising)\ldots
+    \item Solution: Take measurements not just at $s=1$, but in the
+      \alert{quantum regime}, $0<s<1$
   \end{itemize}
 \end{frame}
 \begin{frame}
+  \frametitle{Numerical work}
+  \begin{itemize}
+    \item Exact diagonalization using conjugate gradient
+  \end{itemize}
+\end{frame}
+\begin{frame}
+  \frametitle{Test case: 13-vertex co-Ising graphs}
+\end{frame}
+\begin{frame}
   \frametitle{Results}
+  \includegraphics[width=\textwidth]{delta-grid}
 \end{frame}
 \end{document}
