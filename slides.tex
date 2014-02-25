@@ -1,19 +1,26 @@
-\documentclass{beamer}
+%\documentclass{beamer}
+\documentclass[handout]{beamer}
 
 \usepackage{amsmath}
 \usepackage{tikz}
+\usepackage{commath}
 
 \graphicspath{{figures/}}
 \DeclareGraphicsExtensions{.pdf,.png,.jpg}
 
 \usetikzlibrary{arrows,shapes}
 
+\newcommand{\ev}[1]{\langle #1 \rangle} % expectation value
+
 \title[Quantum GI]
 {Distinguishing graphs with a quantum annealer
   using susceptibility measurements} 
 
-\author[Wittmann, Hen, Young]
-{Matthew~Wittmann\inst{1} \and Itay~Hen\inst{2} \and A.~P.~Young\inst{1}}
+\author[Wittmann, Hen, Young]{%
+  Matthew~Wittmann\inst{1} \and
+  Itay~Hen\inst{2} \and
+  A.~P.~Young\inst{1}
+}
 
 \institute[UCSC and ISI]
 {
@@ -29,6 +36,9 @@
 
 \begin{document}
 
+% Don't show "Figure:" in captions
+\setbeamertemplate{caption}{\insertcaption}
+
 % TikZ commands needed for fancy equation annotation
 % see http://www.texample.net/tikz/examples/beamer-arrows/
 \tikzstyle{every picture}+=[remember picture]
@@ -38,29 +48,28 @@
 \frame{\titlepage}
 \section{Background}
 \begin{frame}
-  \frametitle{Introduction}
-\end{frame}
-\begin{frame}
   \frametitle{Graph Isomorphism (GI) Problem}
-  Given a pair of graphs, determine whether one can be transformed into the
-  other by relabeling the vertices. If so, the graphs are \alert{isomorphic}.
-  \begin{columns}[t]
-    \column{0.25\textwidth}
-    \begin{block}{$G=(E_G,\,V_G)$}
-      \begin{minipage}[t][0.45\textheight][c]{\textwidth}
-        \includegraphics[scale=0.4]{Graph_isomorphism_a}
-      \end{minipage}
-    \end{block}
-    \column{0.25\textwidth}
-    \begin{block}{$H=(E_H,\,V_H)$}
-      \begin{minipage}[t][0.45\textheight][c]{\textwidth}
-        \includegraphics[scale=0.4]{Graph_isomorphism_b}
-      \end{minipage}
-    \end{block}
-    \column{0.25\textwidth}
-    \abovedisplayskip=0pt
-    \abovedisplayshortskip=0pt
-    \begin{block}{$f: V_G\rightarrow V_H$}
+  Are two graphs really the same apart from the labeling of the vertices?
+  \vskip -0.5cm
+  \begin{columns}[b]
+    \column{0.27\textwidth}
+    \begin{figure}
+      \includegraphics[scale=0.36]{Graph_isomorphism_a}
+      \vskip 1cm
+      \caption{$G=(E_G,\,V_G)$}
+    \end{figure}
+
+    \column{0.27\textwidth}
+    \begin{figure}
+      \includegraphics[scale=0.36]{Graph_isomorphism_b}
+      \vskip 1cm
+      \caption{$H=(E_H,\,V_H)$}
+    \end{figure}
+
+    \column{0.27\textwidth}
+    \begin{figure}
+      \abovedisplayskip=0pt
+      \abovedisplayshortskip=0pt
       \begin{align*}
         f(a) &= 1 \\
         f(b) &= 6 \\
@@ -71,17 +80,55 @@
         f(i) &= 4 \\
         f(j) &= 7
       \end{align*}
-    \end{block}
+      \caption{$f:V_G \longrightarrow V_H$}
+    \end{figure}
   \end{columns}
+\end{frame}
+\begin{frame}
+  \frametitle{Graph invariants}
+  E.g.
+  \begin{itemize}
+    \item number of vertices and edges
+    \item degree distribution
+    \item spectrum of adjacency matrix
+    \item \ldots and many more (any quantity which is invariant under
+      relabeling the vertices)
+  \end{itemize}
+  \begin{definition}
+    An invariant $I$ is \alert{complete} if $I(G) = I(H) \iff G \cong H$.
+  \end{definition}
+  There are no known general, complete invariants. Finding one would provide an
+  easy solution to the GI problem!
 \end{frame}
 \begin{frame}
   \frametitle{Features of the GI Problem}
   \begin{itemize}
-    \item Special cases can be solved efficiently by classical algorithms
-    \item But the best known general algorithms are exponentially complex
+    \item Special cases (i.e. those for which complete invariants can be
+      defined) can be solved efficiently by classical algorithms
+    \item But the best known general algorithms are exponentially complex in
+      the number of vertices
     \item Complexity class \alert{NP}, but unlikely to be NP-complete (the same
       is believed of factoring)
   \end{itemize}
+\end{frame}
+\begin{frame}
+  \frametitle{Physical studies of the GI problem}
+    \begin{columns}
+      \column{0.5\textwidth}
+      \begin{itemize}
+        \item Rudolph (2002):
+          Exploit physical intuition to construct graph invariants
+        \item Hen and Young (2012):
+          Propose that the Graph Isomorphism problem could be solved using a
+          quantum annelear
+        \item Gaitan and Clark (2013):
+          Propose adiabatic quantum algorithm for GI
+        \item Vinci et al. (2013):
+          Carry out first experiment using D-Wave One quantum annealer
+      \end{itemize}
+      \column{0.5\textwidth}
+      \includegraphics{d_wave_one_system}
+    \end{columns}
 \end{frame}
 \begin{frame}
   \frametitle{Co-Ising graphs}
@@ -142,7 +189,9 @@
   \end{itemize}
   \begin{enumerate}
     \item Prepare system in ground state of $H_d$ (easy).
-    \item Take $s$ from 0 to 1 \alert{adiabatically}.
+    \item Take $s$ from 0 to 1 \alert{slowly}. According to the adiabatic
+      theorem, the system will remain in the instantaneous ground state
+      througout the evolution.
     \item Ground state of $H_p \longrightarrow$
       solution of optimization problem
   \end{enumerate}
@@ -152,7 +201,7 @@
   \end{tikzpicture}
 \end{frame}
 \begin{frame}
-  \frametitle{Quantum algorithm for GI}
+  \frametitle{Adiabatic quantum algorithm for GI}
   \begin{itemize}
     \item \alert{Ising antiferromagnet} problem Hamiltonian
     \item Transverse field driver Hamiltonian
@@ -162,7 +211,7 @@
     + s \left(
     \sum_{(i,\,j) \in E} \sigma^z_i \sigma^z_j
     - h \sum \sigma^z_i
-  \right)
+    \right)
   \end{equation*}
   \begin{itemize}
     \item Conjecture: \alert{Measurements of the ground state should
@@ -180,10 +229,39 @@
   \end{itemize}
 \end{frame}
 \begin{frame}
-  \frametitle{Test case: 13-vertex co-Ising graphs}
+  \frametitle{Measurements}
+  \begin{itemize}
+    \item Energies $E=\ev{H(G)}$, $E_G=\ev{H_p(G)}$
+    \item Magnetizations $m_z$, $m_x$
+    \item Spin glass overlap
+    \begin{equation*}
+      Q_2 = \frac{1}{N} \sqrt{
+        \sum_{i,\,j} \del{
+          \ev{\sigma^z_i \sigma^z_j} -
+          \ev{\sigma^z_i} \ev{\sigma^z_j}
+        }^2
+      }
+    \end{equation*}
+    \item Analagous quantity in terms of susceptibilities is measurable on the
+      D-Wave machine:
+    \begin{equation*}
+      Q_2' = \frac{1}{N} \sqrt{\sum_{i,\,j} \del{\dpd{\ev{\sigma^z_i}}{h_j}}^2}
+    \end{equation*}
+  \end{itemize}
+\end{frame}
+\begin{frame}
+  \frametitle{Test case: small co-Ising graphs}
+  \begin{itemize}
+    \item Study pair of 13-vertex co-Ising graphs $G_{13}$ and $G_{13}'$
+    \item Found to be difficult to distinguish by Vinci et al.
+  \end{itemize}
 \end{frame}
 \begin{frame}
   \frametitle{Results}
+  \framesubtitle{Absoulte value of difference between $G_{13}$ and $G_{13}'$}
   \includegraphics[width=\textwidth]{delta-grid}
+\end{frame}
+\begin{frame}
+  \frametitle{Future work}
 \end{frame}
 \end{document}
