@@ -47,41 +47,37 @@
 
 \frame{\titlepage}
 \section{Background}
-\begin{frame}
+\begin{frame}[t]
+  \label{GIdef}
   \frametitle{Graph Isomorphism (GI) Problem}
   Are two graphs really the same apart from the labeling of the vertices?
-  \vskip -0.5cm
-  \begin{columns}[b]
+  \vskip 4ex
+  \begin{columns}[T]
     \column{0.27\textwidth}
-    \begin{figure}
-      \includegraphics[scale=0.36]{Graph_isomorphism_a}
-      \vskip 1cm
-      \caption{$G=(E_G,\,V_G)$}
-    \end{figure}
+    \centering
+    $G=(E_G,\,V_G)$ \\[4ex]
+    \includegraphics[scale=0.36]{Graph_isomorphism_a}
 
     \column{0.27\textwidth}
-    \begin{figure}
-      \includegraphics[scale=0.36]{Graph_isomorphism_b}
-      \vskip 1cm
-      \caption{$H=(E_H,\,V_H)$}
-    \end{figure}
+    \centering
+    $H=(E_H,\,V_H)$ \\[4ex]
+    \includegraphics[scale=0.36]{Graph_isomorphism_b}
 
     \column{0.27\textwidth}
-    \begin{figure}
-      \abovedisplayskip=0pt
-      \abovedisplayshortskip=0pt
+    \centering
+    \alert<1|handout:1>{$G \cong H$\uncover<1|handout:1>{?}}
+    \uncover<2-|handout:2-> {%
       \begin{align*}
-        f(a) &= 1 \\
-        f(b) &= 6 \\
-        f(c) &= 8 \\
-        f(d) &= 3 \\
-        f(g) &= 5 \\
-        f(h) &= 2 \\
-        f(i) &= 4 \\
-        f(j) &= 7
+        a &\leftrightarrow 1 \\
+        b &\leftrightarrow 6 \\
+        c &\leftrightarrow 8 \\
+        d &\leftrightarrow 3 \\
+        g &\leftrightarrow 5 \\
+        h &\leftrightarrow 2 \\
+        i &\leftrightarrow 4 \\
+        j &\leftrightarrow 7
       \end{align*}
-      \caption{$f:V_G \longrightarrow V_H$}
-    \end{figure}
+    }
   \end{columns}
 \end{frame}
 \begin{frame}
@@ -101,7 +97,7 @@
   easy solution to the GI problem!
 \end{frame}
 \begin{frame}
-  \frametitle{Features of the GI Problem}
+  \frametitle{Features of the GI problem}
   \begin{itemize}
     \item Special cases (i.e. those for which complete invariants can be
       defined) can be solved efficiently by classical algorithms
@@ -114,40 +110,34 @@
 \begin{frame}
   \frametitle{Physical studies of the GI problem}
     \begin{columns}
-      \column{0.5\textwidth}
+      \column{0.7\textwidth}
       \begin{itemize}
         \item Rudolph (2002):
           Exploit physical intuition to construct graph invariants
         \item Hen and Young (2012):
-          Propose that the Graph Isomorphism problem could be solved using a
-          quantum annelear
+          Propose that the GI problem could be solved using a
+          quantum annealer
         \item Gaitan and Clark (2013):
           Propose adiabatic quantum algorithm for GI
         \item Vinci et al. (2013):
-          Carry out first experiment using D-Wave One quantum annealer
+          Experimental implementation of GI algorithm using D-Wave One quantum
+          annealer
       \end{itemize}
-      \column{0.5\textwidth}
-      \includegraphics{d_wave_one_system}
+      \column{0.3\textwidth}
+      \includegraphics[width=\textwidth]{d_wave_one_system}
     \end{columns}
 \end{frame}
 \begin{frame}
-  \frametitle{Co-Ising graphs}
-  Encode graph $G=(V,\,E)$ as an Ising Hamiltonian $H(G)$
-  \begin{itemize}
-    \item 1-1 mapping of vertices to Ising spins
-    \item<2-> \alert{Antiferromagnetic} interaction between spins $\sigma_i$
-      and $\sigma_j$ for each edge $(i,\,j) \in E$
-      \tikz[na]\node [coordinate] (n1) {};
-  \end{itemize}
+  %\frametitle{Ising Hamiltonian encoding of a graph}
+  %\frametitle{Graph $\longrightarrow$ Ising Hamiltonian}
+  \frametitle{Graph encoding}
   \begin{equation*}
-    \onslide<2->{ % only show AFM term starting on slide 2
-      H(G) = 
-      \tikz[baseline]{
-        \node[fill=blue!20,ellipse,anchor=base] (t1)
-        {$\sum_{(i,\,j) \in E} \sigma^z_i \sigma^z_j$};
-      }
+    H_p(G) = 
+    \tikz[baseline]{
+      \node[fill=blue!20,ellipse,anchor=base] (t1)
+      {$\sum_{(i,\,j) \in E} \sigma^z_i \sigma^z_j$};
     }
-    \onslide<3->{ % only show field term starting on slide 3
+    \uncover<2->{ % only show field term starting on slide 2
       -
       \tikz[baseline]{
         \node[fill=red!20,ellipse,anchor=base] (t2)
@@ -156,77 +146,58 @@
     }
   \end{equation*}
   \begin{itemize}
-    \item<3-> \alert{Longitudinal field} to break symmetry
+    \item Antiferromagnetic Ising model
+      \tikz[na]\node [coordinate] (n1) {};
+    \item<2-> Longitudinal field to break $z$-symmetry
       \tikz[na]\node [coordinate] (n2) {};
+    \item<3-> Spectrum of $H(G)$ \alert{not} a complete invariant\ldots
   \end{itemize}
 
   % Draw edges from bullet points to terms (note 'overlay' style).
   \begin{tikzpicture}[overlay]
-    \path[->]<2-> (n1) edge [out=0,in=90] (t1);
-    \path[->]<3-> (n2) edge [out=0,in=-90] (t2);
+    \path[->] (n1) edge [out=0,in=-30] (t1);
+    \path[->]<2-> (n2) edge [out=0,in=-90] (t2);
   \end{tikzpicture}
-
-  \begin{definition}<4>
+  \begin{definition}<3->
     $G_1,\,G_2$ \alert{co-Ising} $\iff$ $H(G_1)$, $H(G_2)$
     co-spectral for all $h$
   \end{definition}
 \end{frame}
 \begin{frame}
-  \frametitle{Adiabatic Quantum Computation (AQC)}
+  \frametitle{Adiabatic quantum algorithm for GI}
   \begin{itemize}
-    \item Driver Hamiltonian
+    \item Driver Hamiltonian $H_d$
       \tikz[na]\node [coordinate] (n3) {};
   \end{itemize}
   \begin{equation*}
     H = (1-s)\,
-    \tikz[baseline]{ \node[fill=blue!20,ellipse,anchor=base] (t3) {$H_d$}; }
+    \tikz[baseline]{ \node[fill=blue!20,ellipse,anchor=base] (t3)
+      {$\frac{1}{2} \sum \sigma^x_i$};
+    }
     + s\,
-    \tikz[baseline]{ \node[fill=red!20,ellipse,anchor=base] (t4) {$H_p$}; }
+    \tikz[baseline]{ \node[fill=red!20,ellipse,anchor=base] (t4)
+      {$H_p(G)$};
+    }
   \end{equation*}
   \begin{itemize}
-    \item Problem Hamiltonian
+    \item Problem Hamiltonian $H_p$
       \tikz[na]\node [coordinate] (n4) {};
   \end{itemize}
-  \begin{enumerate}
-    \item Prepare system in ground state of $H_d$ (easy).
-    \item Take $s$ from 0 to 1 \alert{slowly}. According to the adiabatic
-      theorem, the system will remain in the instantaneous ground state
-      througout the evolution.
-    \item Ground state of $H_p \longrightarrow$
-      solution of optimization problem
-  \end{enumerate}
   \begin{tikzpicture}[overlay]
     \path[->] (n3) edge [out=0,in=90] (t3);
     \path[->] (n4) edge [out=0,in=-90] (t4);
   \end{tikzpicture}
-\end{frame}
-\begin{frame}
-  \frametitle{Adiabatic quantum algorithm for GI}
-  \begin{itemize}
-    \item \alert{Ising antiferromagnet} problem Hamiltonian
-    \item Transverse field driver Hamiltonian
-  \end{itemize}
-  \begin{equation*}
-    H = (1-s) \frac{1}{2} \sum \sigma^x_i
-    + s \left(
-    \sum_{(i,\,j) \in E} \sigma^z_i \sigma^z_j
-    - h \sum \sigma^z_i
-    \right)
-  \end{equation*}
-  \begin{itemize}
-    \item Conjecture: \alert{Measurements of the ground state should
-      distinguish non-isomorphic graphs.}
-    \item But the \alert{ground state of $H_p$ is insufficient} to distinguish
-      all pairs of graphs (e.g. co-Ising)\ldots
-    \item Solution: Take measurements not just at $s=1$, but in the
-      \alert{quantum regime}, $0<s<1$
-  \end{itemize}
-\end{frame}
-\begin{frame}
-  \frametitle{Numerical work}
-  \begin{itemize}
-    \item Exact diagonalization using conjugate gradient
-  \end{itemize}
+  \begin{block}{Quantum adiabatic algorithm (QAA)}
+    \begin{enumerate}
+      \item Prepare system in ground state of $H_d$ (easy)
+      \item Take $s$ from 0 to 1 \alert{slowly}.  System remains in ground state
+        of the instantaneous Hamiltonian (adiabatic theorem)
+      \item Ground state of $H_p \longrightarrow$ solution of optimization
+        problem\ldots
+    \end{enumerate}
+  \end{block}
+  \alert{Use measurements of the instantaneous ground state throughout the
+    adiabatic evolution to distinguish non-isomorphic graphs}
 \end{frame}
 \begin{frame}
   \frametitle{Measurements}
@@ -242,26 +213,34 @@
         }^2
       }
     \end{equation*}
-    \item Analagous quantity in terms of susceptibilities is measurable on the
-      D-Wave machine:
+    \item Analagous quantity in terms of susceptibilities
     \begin{equation*}
       Q_2' = \frac{1}{N} \sqrt{\sum_{i,\,j} \del{\dpd{\ev{\sigma^z_i}}{h_j}}^2}
     \end{equation*}
+    \item All except $Q_2$ measurable on the D-Wave machine
   \end{itemize}
 \end{frame}
 \begin{frame}
   \frametitle{Test case: small co-Ising graphs}
   \begin{itemize}
     \item Study pair of 13-vertex co-Ising graphs $G_{13}$ and $G_{13}'$
-    \item Found to be difficult to distinguish by Vinci et al.
+    \item Found to be difficult to distinguish by Vinci et al. (using
+      measurements at $s \rightarrow 1$ and with $h=0$)
+    \item Study the parameter space of $h$, $s$ using numerical minimization to
+      find the ground state
+    \item Which parameters give the largest difference in measured quantities?
   \end{itemize}
 \end{frame}
 \begin{frame}
   \frametitle{Results}
-  \framesubtitle{Absoulte value of difference between $G_{13}$ and $G_{13}'$}
+  \framesubtitle{Absolute value of difference between $G_{13}$ and $G_{13}'$}
   \includegraphics[width=\textwidth]{delta-grid}
 \end{frame}
 \begin{frame}
   \frametitle{Future work}
+  \begin{itemize}
+    \item Carry out tests on newest D-Wave hardware (capable of measurements at
+      intermediate $s$).
+  \end{itemize}
 \end{frame}
 \end{document}
