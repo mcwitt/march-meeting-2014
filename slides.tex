@@ -1,5 +1,5 @@
-%\documentclass{beamer}
-\documentclass[handout]{beamer}
+\documentclass{beamer}
+%\documentclass[handout]{beamer}
 
 \usepackage{amsmath}
 \usepackage{tikz}
@@ -65,8 +65,9 @@
 
     \column{0.27\textwidth}
     \centering
-    \alert<1|handout:1>{$G \cong H$\uncover<1|handout:1>{?}}
+    \alert<1|handout:1>{$G \cong H$?}
     \uncover<2-|handout:2-> {%
+      \alert{Yes.}
       \begin{align*}
         a &\leftrightarrow 1 \\
         b &\leftrightarrow 6 \\
@@ -171,11 +172,11 @@
   \end{itemize}
   \begin{equation*}
     H = (1-s)\,
-    \tikz[baseline]{ \node[fill=blue!20,ellipse,anchor=base] (t3)
+    \tikz[baseline]{ \node[fill=green!20,ellipse,anchor=base] (t3)
       {$\frac{1}{2} \sum \sigma^x_i$};
     }
     + s\,
-    \tikz[baseline]{ \node[fill=red!20,ellipse,anchor=base] (t4)
+    \tikz[baseline]{ \node[fill=blue!20,ellipse,anchor=base] (t4)
       {$H_p(G)$};
     }
   \end{equation*}
@@ -183,10 +184,12 @@
     \item Problem Hamiltonian $H_p$
       \tikz[na]\node [coordinate] (n4) {};
   \end{itemize}
+  \vskip -2ex
   \begin{tikzpicture}[overlay]
     \path[->] (n3) edge [out=0,in=90] (t3);
     \path[->] (n4) edge [out=0,in=-90] (t4);
   \end{tikzpicture}
+  \pause
   \begin{block}{Quantum adiabatic algorithm (QAA)}
     \begin{enumerate}
       \item Prepare system in ground state of $H_d$ (easy)
@@ -196,8 +199,9 @@
         problem\ldots
     \end{enumerate}
   \end{block}
-  \alert{Use measurements of the instantaneous ground state throughout the
-    adiabatic evolution to distinguish non-isomorphic graphs}
+  \pause
+  \alert{Use measurements of the instantaneous ground state
+      throughout the adiabatic evolution to distinguish non-isomorphic graphs}
 \end{frame}
 \begin{frame}
   \frametitle{Measurements}
@@ -226,10 +230,65 @@
     \item Study pair of 13-vertex co-Ising graphs $G_{13}$ and $G_{13}'$
     \item Found to be difficult to distinguish by Vinci et al. (using
       measurements at $s \rightarrow 1$ and with $h=0$)
-    \item Study the parameter space of $h$, $s$ using numerical minimization to
-      find the ground state
-    \item Which parameters give the largest difference in measured quantities?
+    \item Which $h$, $s$ give the largest difference in measured quantities?
   \end{itemize}
+  \begin{columns}[t]
+    \column{0.5\textwidth}
+    \centering
+    $G_{13}$\\[1.5ex]
+    \begin{tikzpicture}[semithick]
+      \tikzstyle{every node}=[circle, fill=blue, draw=blue, text=white,
+        font=\scriptsize, minimum size=0.5cm, inner sep=1pt]
+      \def \n {13}
+      \def \radius {2cm}
+      \foreach \s in {1,...,\n} {
+        \node at ({360/\n * (\s - 1)}:\radius) (\s) {\bf\s};
+      }
+      \path (1)  edge (8)
+                 edge (10)
+                 edge (11)
+                 edge (13)
+            (2)  edge (9)
+                 edge (11)
+                 edge (13)
+            (3)  edge (10)
+                 edge (13)
+            (4)  edge (10)
+            (5)  edge (11)
+            (6)  edge (12)
+            (7)  edge (12)
+            (9)  edge (12)
+            (12) edge (13);
+    \end{tikzpicture}
+
+    \column{0.5\textwidth}
+    \centering
+    $G_{13}'$\\[1.5ex]
+    \begin{tikzpicture}[semithick]
+      \tikzstyle{every node}=[circle, fill=red, draw=red, text=white,
+        font=\scriptsize, minimum size=0.5cm, inner sep=1pt]
+      \def \n {13}
+      \def \radius {2cm}
+      \foreach \s in {1,...,\n} {
+        \node at ({360/\n * (\s - 1)}:\radius) (\s) {\bf\s};
+      }
+      \path (1)  edge (8)
+                 edge (10)
+                 edge (11)
+                 edge (13)
+            (2)  edge (9)
+                 edge (11)
+                 edge (13)
+            (3)  edge (10)
+                 edge (11)
+            (4)  edge (10)
+            (5)  edge (12)
+            (6)  edge (12)
+            (7)  edge (13)
+            (8)  edge (12)
+            (12) edge (13);
+    \end{tikzpicture}
+  \end{columns}
 \end{frame}
 \begin{frame}
   \frametitle{Results}
