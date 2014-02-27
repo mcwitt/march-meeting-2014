@@ -44,35 +44,41 @@
 
 \frame{\titlepage}
 \section{Background}
-\begin{frame}[t]
-  \frametitle{Graph Isomorphism (GI) Problem}
+\begin{frame}
+  \frametitle{Graph isomorphism (GI) problem}
   Are two graphs really the same apart from the labeling of the vertices?
-  \begin{columns}[t]
+  \bigskip
+  \begin{columns}[T]
     \column{0.27\textwidth}
     \centering
-    $G$\\[2ex]
+    $G$
+    \column{0.27\textwidth}
+    \centering
+    $H$
+    \column{0.27\textwidth}
+    \centering
+    \alert<1|handout:1>{$G \cong H$?}
+    \uncover<2-|handout:2->{\alert{Yes.}
+    }
+  \end{columns}
+  \bigskip
+  \begin{columns}[c]
+    \column{0.27\textwidth}
+    \centering
     \includegraphics[scale=0.36]{Graph_isomorphism_a}
 
     \column{0.27\textwidth}
     \centering
-    $H$\\[2ex]
     \includegraphics[scale=0.36]{Graph_isomorphism_b}
 
     \column{0.27\textwidth}
     \centering
-    \alert<1|handout:1>{$G \cong H$?}
     \uncover<2-|handout:2-> {%
-      \alert{Yes.}
-      \abovedisplayskip=2ex
       \begin{align*}
-        a &\leftrightarrow 1 \\
-        b &\leftrightarrow 6 \\
-        c &\leftrightarrow 8 \\
-        d &\leftrightarrow 3 \\
-        g &\leftrightarrow 5 \\
-        h &\leftrightarrow 2 \\
-        i &\leftrightarrow 4 \\
-        j &\leftrightarrow 7
+        a &\leftrightarrow 1 &\quad g &\leftrightarrow 5 \\
+        b &\leftrightarrow 6 &\quad h &\leftrightarrow 2 \\
+        c &\leftrightarrow 8 &\quad i &\leftrightarrow 4 \\
+        d &\leftrightarrow 3 &\quad j &\leftrightarrow 7
       \end{align*}
     }
   \end{columns}
@@ -87,6 +93,7 @@
     \item \ldots and many more (any quantity which is invariant under
       relabeling the vertices)
   \end{itemize}
+  \pause
   \begin{definition}
     An invariant $I$ is \alert{complete} if $I(G) = I(H) \iff G \cong H$.
   \end{definition}
@@ -100,14 +107,14 @@
       defined) can be solved efficiently by classical algorithms
     \item But the best known general algorithms are exponentially complex in
       the number of vertices
-    \item Complexity class \alert{NP}, but unlikely to be NP-complete (the same
+    \item Complexity class NP, but unlikely to be NP-complete (the same
       is believed of factoring)
   \end{itemize}
 \end{frame}
 \begin{frame}
   \frametitle{GI and quantum annealing}
     \begin{columns}
-      \column{0.7\textwidth}
+      \column{0.6\textwidth}
       \begin{itemize}
         \item Hen and Young (2012):
           Propose that the GI problem could be solved using a
@@ -118,7 +125,7 @@
           Experimental implementation of GI algorithm using D-Wave quantum
           annealer
       \end{itemize}
-      \column{0.3\textwidth}
+      \column{0.4\textwidth}
       \includegraphics[width=\textwidth]{d_wave_one_system}
     \end{columns}
 \end{frame}
@@ -130,7 +137,7 @@
     H_p(G) = 
     \tikz[baseline]{
       \node[fill=blue!20,ellipse,anchor=base] (t1)
-      {$\sum_{(i,\,j) \in E} \sigma^z_i \sigma^z_j$};
+      {$\sum_{(i,\,j) \in G} \sigma^z_i \sigma^z_j$};
     }
     \uncover<2->{ % only show field term starting on slide 2
       -
@@ -145,7 +152,7 @@
       \tikz[na]\node [coordinate] (n1) {};
     \item<2-> Longitudinal field to break $z$-symmetry
       \tikz[na]\node [coordinate] (n2) {};
-    \item<3-> Spectrum of $H(G)$ \alert{not} a complete invariant\ldots
+    \item<3-> Spectrum of $H_p(G)$ \alert{not} a complete invariant\ldots
   \end{itemize}
 
   % Draw edges from bullet points to terms (note 'overlay' style).
@@ -154,7 +161,7 @@
     \path[->]<2-> (n2) edge [out=0,in=-90] (t2);
   \end{tikzpicture}
   \begin{definition}<3->
-    $G_1,\,G_2$ \alert{co-Ising} $\iff$ $H(G_1)$, $H(G_2)$
+    $G_1,\,G_2$ \alert{co-Ising} $\iff$ $H_p(G_1)$, $H_p(G_2)$
     co-spectral for all $h$
   \end{definition}
 \end{frame}
@@ -178,11 +185,11 @@
     \item Problem Hamiltonian $H_p$
       \tikz[na]\node [coordinate] (n4) {};
   \end{itemize}
-  \vskip -2ex
   \begin{tikzpicture}[overlay]
     \path[->] (n3) edge [out=0,in=90] (t3);
     \path[->] (n4) edge [out=0,in=-90] (t4);
   \end{tikzpicture}
+  \vskip -2ex
   \pause
   \begin{block}{Quantum adiabatic algorithm (QAA)}
     \begin{enumerate}
@@ -215,13 +222,15 @@
     \begin{equation*}
       Q_2' = \frac{1}{N} \sqrt{\sum_{i,\,j} \del{\dpd{\ev{\sigma^z_i}}{h_j}}^2}
     \end{equation*}
+
+    \item Method should hold for finite $T$ as well
   \end{itemize}
-  \alert{All except $Q_2$ measurable for $0<s<1$ on the newest D-Wave hardware}
+  \alert{All except $Q_2$ are in principle measurable on D-Wave's Burnaby machine}
 \end{frame}
 \begin{frame}
   \frametitle{Test case: small co-Ising graphs}
   \begin{itemize}
-    \item Study pair of 13-vertex co-Ising graphs $G_{13}$ and $G_{13}'$
+    \item Study pair of 13-vertex co-Ising graphs $G_{13}$, $G_{13}'$
     \item Found to be difficult to distinguish by Vinci et al. (using
       measurements at $s \rightarrow 1$ and with $h=0$)
     \item Which $h$, $s$ give the largest difference in measured quantities?
@@ -285,7 +294,7 @@
   \end{columns}
 \end{frame}
 \begin{frame}
-  \frametitle{Results}
+  \frametitle{Numerical results}
   \begin{center}
     Absolute value of difference between $G_{13}$ and $G_{13}'$
     \includegraphics{delta-grid}
@@ -297,14 +306,15 @@
   \begin{columns}
     \column{0.5\textwidth}
     \begin{itemize}
-      \item Graphs are distinguished by the proposed Ising model
+      \item So far, it looks like graphs are distinguished by the proposed
+        Ising model
       \item Differences are more pronounced in the middle of the adiabatic run
         and not at the end of it
     \end{itemize}
     \begin{block}{Future work}
       \begin{itemize}
-        \item Carry out tests on newest D-Wave hardware
-          (capable of mid-run measurements)
+        \item Carry out tests on D-Wave hardware capable of mid-run
+          measurements
       \end{itemize}
     \end{block}
     
@@ -315,7 +325,7 @@
 
 %\begin{frame}[allowframebreaks]
 \begin{frame}
-  \frametitle{For further reading}
+  \frametitle{For further reading\ldots}
     
   \begin{thebibliography}{10}
     
