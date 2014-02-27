@@ -36,9 +36,6 @@
 
 \begin{document}
 
-% Don't show "Figure:" in captions
-\setbeamertemplate{caption}{\insertcaption}
-
 % TikZ commands needed for fancy equation annotation
 % see http://www.texample.net/tikz/examples/beamer-arrows/
 \tikzstyle{every picture}+=[remember picture]
@@ -48,19 +45,17 @@
 \frame{\titlepage}
 \section{Background}
 \begin{frame}[t]
-  \label{GIdef}
   \frametitle{Graph Isomorphism (GI) Problem}
   Are two graphs really the same apart from the labeling of the vertices?
-  \vskip 4ex
-  \begin{columns}[T]
+  \begin{columns}[t]
     \column{0.27\textwidth}
     \centering
-    $G=(E_G,\,V_G)$ \\[4ex]
+    $G$\\[2ex]
     \includegraphics[scale=0.36]{Graph_isomorphism_a}
 
     \column{0.27\textwidth}
     \centering
-    $H=(E_H,\,V_H)$ \\[4ex]
+    $H$\\[2ex]
     \includegraphics[scale=0.36]{Graph_isomorphism_b}
 
     \column{0.27\textwidth}
@@ -68,6 +63,7 @@
     \alert<1|handout:1>{$G \cong H$?}
     \uncover<2-|handout:2-> {%
       \alert{Yes.}
+      \abovedisplayskip=2ex
       \begin{align*}
         a &\leftrightarrow 1 \\
         b &\leftrightarrow 6 \\
@@ -109,19 +105,17 @@
   \end{itemize}
 \end{frame}
 \begin{frame}
-  \frametitle{Physical studies of the GI problem}
+  \frametitle{GI and quantum annealing}
     \begin{columns}
       \column{0.7\textwidth}
       \begin{itemize}
-        \item Rudolph (2002):
-          Exploit physical intuition to construct graph invariants
         \item Hen and Young (2012):
           Propose that the GI problem could be solved using a
           quantum annealer
         \item Gaitan and Clark (2013):
           Propose adiabatic quantum algorithm for GI
         \item Vinci et al. (2013):
-          Experimental implementation of GI algorithm using D-Wave One quantum
+          Experimental implementation of GI algorithm using D-Wave quantum
           annealer
       \end{itemize}
       \column{0.3\textwidth}
@@ -221,8 +215,8 @@
     \begin{equation*}
       Q_2' = \frac{1}{N} \sqrt{\sum_{i,\,j} \del{\dpd{\ev{\sigma^z_i}}{h_j}}^2}
     \end{equation*}
-    \item All except $Q_2$ measurable on the D-Wave machine
   \end{itemize}
+  \alert{All except $Q_2$ measurable for $0<s<1$ on the newest D-Wave hardware}
 \end{frame}
 \begin{frame}
   \frametitle{Test case: small co-Ising graphs}
@@ -292,14 +286,63 @@
 \end{frame}
 \begin{frame}
   \frametitle{Results}
-  \framesubtitle{Absolute value of difference between $G_{13}$ and $G_{13}'$}
-  \includegraphics[width=\textwidth]{delta-grid}
+  \begin{center}
+    Absolute value of difference between $G_{13}$ and $G_{13}'$
+    \includegraphics{delta-grid}
+  \end{center}
 \end{frame}
+
 \begin{frame}
-  \frametitle{Future work}
-  \begin{itemize}
-    \item Carry out tests on newest D-Wave hardware (capable of measurements at
-      intermediate $s$).
-  \end{itemize}
+  \frametitle{Conclusions}
+  \begin{columns}
+    \column{0.5\textwidth}
+    \begin{itemize}
+      \item Graphs are distinguished by the proposed Ising model
+      \item Differences are more pronounced in the middle of the adiabatic run
+        and not at the end of it
+    \end{itemize}
+    \begin{block}{Future work}
+      \begin{itemize}
+        \item Carry out tests on newest D-Wave hardware
+          (capable of mid-run measurements)
+      \end{itemize}
+    \end{block}
+    
+    \column{0.5\textwidth}
+    \includegraphics{delta-Eg}
+  \end{columns}
 \end{frame}
+
+%\begin{frame}[allowframebreaks]
+\begin{frame}
+  \frametitle{For further reading}
+    
+  \begin{thebibliography}{10}
+    
+  \beamertemplatearticlebibitems
+
+  \bibitem{hen-solving-2012}
+    I.~Hen and A.~P.~Young
+    \newblock Solving the graph-isomorphism problem with a quantum annealer
+    \newblock Physical Review A {\bf 86} (2012)
+    
+  \bibitem{gaitan-graph-2012}
+    F.~Gaitan and S.~Clark
+    \newblock Graph isomorphism and adiabatic quantum computing
+    \newblock arXiv:1304.5773 [quant-ph]
+
+  \bibitem{vinci-hearing-2012}
+    W.~Vinci et al.
+    \newblock Hearing the shape of Ising models: on the distinguishability
+    power of Physics
+    \newblock arXiv:1307.1114 [quant-ph]
+
+  \bibitem{rudolph-constructing-2002}
+    T.~Rudolph
+    \newblock Constructing physically intuitive graph invariants
+    \newblock arXiv:quant-ph/0206068
+  \end{thebibliography}
+\end{frame}
+
+\end{document}
 \end{document}
