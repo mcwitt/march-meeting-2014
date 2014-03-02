@@ -108,7 +108,7 @@
 \begin{frame}
   \frametitle{Complexity of the GI problem}
   \begin{columns}
-    \column{0.6\textwidth}
+    \column{0.7\textwidth}
     \begin{itemize}
       \item Special cases (e.g. trees, planar graphs) can be solved efficiently
         by classical algorithms
@@ -117,21 +117,21 @@
         \tikz[na]\node [coordinate] (inpi) {};
     \end{itemize}
 
-    \column{0.4\textwidth}
-    \begin{tikzpicture}[scale=1.3]
+    \column{0.3\textwidth}
+    \begin{tikzpicture}[scale=1.3,semithick]
       \def\egg{(0,0) ellipse (1 and 2)}
       \fill[red!20] \egg;
       \begin{scope}[even odd rule]
         \clip\egg;
-        \filldraw[thick,fill=blue!20] (0,-2) circle (2.2);
+        \filldraw[fill=blue!20] (0,-2) circle (2.2);
       \end{scope}
-      \filldraw[thick,fill=green!20] (0,-0.95) circle (0.75) node {P};
+      \filldraw[fill=green!20] (0,-0.95) circle (0.75) node {P};
       \path (0,2) node[above] {NP};
       \path (0,0.2) node[below] (npi) {NPI};
       \path (0,1) node {NPC};
       \draw[thick] \egg;
     \end{tikzpicture}
-    \begin{tikzpicture}[red,overlay,thick,>=stealth]
+    \begin{tikzpicture}[red,overlay,semithick,>=stealth']
       \path[->]<2> (inpi) edge [out=0,in=180] (npi.west);
     \end{tikzpicture}
   \end{columns}
@@ -183,7 +183,7 @@
       \tikz[na]\node [coordinate] (ih) {};
     \item<3-> Spectrum of $H_p(G)$ \alert{not} a complete invariant\ldots
   \end{itemize}
-  \begin{tikzpicture}[overlay,thick,>=stealth]
+  \begin{tikzpicture}[overlay,semithick,>=stealth]
     \path[->] (iafm) edge [out=0,in=-30] (afm);
     \path[->]<2-> (ih) edge [out=0,in=-90] (h);
   \end{tikzpicture}
@@ -214,7 +214,7 @@
     \item \alert{Hypothesis:} The quantum problem ($0<s<1$) will distinguish
         non-isomorphic graphs
   \end{itemize}
-  \begin{tikzpicture}[overlay,thick,>=stealth]
+  \begin{tikzpicture}[overlay,semithick,>=stealth]
     \path[->] (ihp) edge [out=0,in=-45] (hp);
     \path[->]<2-> (ihd) edge [out=0,in=-90] (hd);
   \end{tikzpicture}
@@ -244,7 +244,7 @@
     \column{0.5\textwidth}
     \centering
     $G_{13}$\\[1.5ex]
-    \begin{tikzpicture}[thick]
+    \begin{tikzpicture}[semithick]
       \tikzstyle{every node}=[circle, fill=blue, draw=blue, text=white,
         font=\scriptsize, minimum size=0.5cm, inner sep=1pt]
       \def \n {13}
@@ -272,7 +272,7 @@
     \column{0.5\textwidth}
     \centering
     $G_{13}'$\\[1.5ex]
-    \begin{tikzpicture}[thick]
+    \begin{tikzpicture}[semithick]
       \tikzstyle{every node}=[circle, fill=red, draw=red, text=white,
         font=\scriptsize, minimum size=0.5cm, inner sep=1pt]
       \def \n {13}
