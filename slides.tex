@@ -8,7 +8,7 @@
 \graphicspath{{figures/}}
 \DeclareGraphicsExtensions{.pdf,.png,.jpg}
 
-\usetikzlibrary{arrows,shapes}
+\usetikzlibrary{arrows,shapes,fit,backgrounds}
 
 \newcommand{\ev}[1]{\langle #1 \rangle} % expectation value
 
@@ -43,7 +43,9 @@
 \everymath{\displaystyle}
 
 \frame{\titlepage}
+
 \section{Background}
+
 \begin{frame}
   \frametitle{Graph isomorphism (GI) problem}
   Are two graphs really the same apart from the labeling of the vertices?
@@ -82,10 +84,12 @@
       \end{align*}
     }
   \end{columns}
+  \transdissolve<2>[duration=0.2]
 \end{frame}
+
 \begin{frame}
   \frametitle{Graph invariants}
-  E.g.
+  For example\ldots
   \begin{itemize}
     \item number of vertices and edges
     \item degree distribution
@@ -100,17 +104,42 @@
   There are no known general, complete invariants. Finding one would provide an
   easy solution to the GI problem!
 \end{frame}
+
 \begin{frame}
-  \frametitle{Features of the GI problem}
-  \begin{itemize}
-    \item Special cases (i.e. those for which complete invariants can be
-      defined) can be solved efficiently by classical algorithms
-    \item But the best known general algorithms have worst-case complexity that
-      is exponential in the number of vertices
-    \item One of only a few problems in NP not known to be solvable in
-      polynomial time or NP-complete (another being factoring)
-  \end{itemize}
+  \frametitle{Complexity of the GI problem}
+  \begin{columns}
+    \column{0.6\textwidth}
+    \begin{itemize}
+      \item Special cases (e.g. trees, planar graphs) can be solved efficiently
+        by classical algorithms
+      \item Best known general algorithms have exponential worst-case complexity
+      \item One of only a few problems in NP not known to be solvable in
+        polynomial time or NP-complete (another being factoring)
+      \item<2> i.e. NP-incomplete (NPI)
+        \tikz[na]\node [coordinate] (inpi) {};
+    \end{itemize}
+
+    \column{0.4\textwidth}
+    \begin{tikzpicture}[scale=1.3]
+      \def\egg{(0,0) ellipse (1 and 2)}
+      \fill[red!20] \egg;
+      \begin{scope}[even odd rule]
+        \clip\egg;
+        \filldraw[thick,fill=blue!20] (0,-2) circle (2.2);
+      \end{scope}
+      \filldraw[thick,fill=green!20] (0,-0.95) circle (0.75) node {P};
+      \path (0,2) node[above] {NP};
+      \path (0,0.2) node[below] (npi) {NPI};
+      \path (0,1) node {NPC};
+      \draw[thick] \egg;
+    \end{tikzpicture}
+    \begin{tikzpicture}[red,overlay,thick,>=stealth]
+      \path[->]<2> (inpi) edge [out=0,in=-160] (npi.west);
+    \end{tikzpicture}
+  \end{columns}
+  \transdissolve<2>[duration=0.2]
 \end{frame}
+
 \begin{frame}
   \frametitle{GI and quantum annealing}
     \begin{columns}
@@ -129,112 +158,90 @@
       \includegraphics[width=\textwidth]{d_wave_one_system}
     \end{columns}
 \end{frame}
+
+
+\section{Method}
+
 \begin{frame}
-  %\frametitle{Ising Hamiltonian encoding of a graph}
-  %\frametitle{Graph $\longrightarrow$ Ising Hamiltonian}
   \frametitle{Graph encoding}
   \begin{equation*}
     H_p(G) = 
     \tikz[baseline]{
-      \node[fill=blue!20,ellipse,anchor=base] (t1)
+      \node[fill=blue!20,ellipse,anchor=base] (afm)
       {$\sum_{(i,\,j) \in G} \sigma^z_i \sigma^z_j$};
     }
     \uncover<2->{ % only show field term starting on slide 2
       -
       \tikz[baseline]{
-        \node[fill=red!20,ellipse,anchor=base] (t2)
+        \node[fill=red!20,ellipse,anchor=base] (h)
         {$h \sum \sigma^z_i$};
       }
     }
   \end{equation*}
   \begin{itemize}
     \item Antiferromagnetic Ising model
-      \tikz[na]\node [coordinate] (n1) {};
+      \tikz[na]\node [coordinate] (iafm) {};
     \item<2-> Longitudinal field to break $z$-symmetry
-      \tikz[na]\node [coordinate] (n2) {};
+      \tikz[na]\node [coordinate] (ih) {};
     \item<3-> Spectrum of $H_p(G)$ \alert{not} a complete invariant\ldots
   \end{itemize}
-
-  % Draw edges from bullet points to terms (note 'overlay' style).
-  \begin{tikzpicture}[overlay]
-    \path[->] (n1) edge [out=0,in=-30] (t1);
-    \path[->]<2-> (n2) edge [out=0,in=-90] (t2);
+  \begin{tikzpicture}[overlay,semithick,>=stealth]
+    \path[->] (iafm) edge [out=0,in=-30] (afm);
+    \path[->]<2-> (ih) edge [out=0,in=-90] (h);
   \end{tikzpicture}
   \begin{definition}<3->
     $G_1,\,G_2$ \alert{co-Ising} $\iff$ $H_p(G_1)$, $H_p(G_2)$
     co-spectral for all $h$
   \end{definition}
 \end{frame}
+
 \begin{frame}
   \frametitle{Adiabatic quantum algorithm for GI}
-  \begin{itemize}
-    \item Driver Hamiltonian $H_d$
-      \tikz[na]\node [coordinate] (n3) {};
-  \end{itemize}
   \begin{equation*}
-    H = (1-s)\,
-    \tikz[baseline]{ \node[fill=green!20,ellipse,anchor=base] (t3)
-      {$\frac{1}{2} \sum \sigma^x_i$};
-    }
-    + s\,
-    \tikz[baseline]{ \node[fill=blue!20,ellipse,anchor=base] (t4)
+    H =
+    \uncover<2->{s\,}
+    \tikz[baseline]{ \node[fill=blue!20,ellipse,anchor=base] (hp)
       {$H_p(G)$};
     }
+    \uncover<2->{
+      + (1-s)\,
+      \tikz[baseline]{ \node[fill=green!20,ellipse,anchor=base] (hd)
+        {$\frac{1}{2} \sum \sigma^x_i$};
+      }
+    }
   \end{equation*}
-  \begin{itemize}
-    \item Problem Hamiltonian $H_p$
-      \tikz[na]\node [coordinate] (n4) {};
+  \begin{itemize}[<+->]
+    \item Problem Hamiltonian \tikz[na]\node [coordinate] (ihp) {};
+    \item Driver Hamiltonian \tikz[na]\node [coordinate] (ihd) {};
+    \item \alert{Hypothesis:} The quantum problem ($0<s<1$) will distinguish
+        non-isomorphic graphs
   \end{itemize}
-  \begin{tikzpicture}[overlay]
-    \path[->] (n3) edge [out=0,in=90] (t3);
-    \path[->] (n4) edge [out=0,in=-90] (t4);
+  \begin{tikzpicture}[overlay,semithick,>=stealth]
+    \path[->] (ihp) edge [out=0,in=-45] (hp);
+    \path[->]<2-> (ihd) edge [out=0,in=-90] (hd);
   \end{tikzpicture}
   \vskip -2ex
-  \pause
-  \begin{block}{Quantum adiabatic algorithm (QAA)}
+  \begin{block}{Algorithm}<+->
     \begin{enumerate}
       \item Prepare system in ground state of $H_d$ (easy)
       \item Take $s$ from 0 to 1 \alert{slowly}.  System remains in ground state
         of the instantaneous Hamiltonian (adiabatic theorem)
-      \item Ground state of $H_p \longrightarrow$ solution of optimization
-        problem\ldots
+      \item Use measurements taken \alert{throughout the adiabatic evolution}
+        to distinguish non-isomorphic graphs
     \end{enumerate}
   \end{block}
-  \pause
-  \alert{Use measurements of the instantaneous ground state
-      throughout the adiabatic evolution to distinguish non-isomorphic graphs}
+  \transdissolve<2>[duration=0.2]
 \end{frame}
-\begin{frame}
-  \frametitle{Measurements}
-  \begin{itemize}
-    \item Energies $E=\ev{H(G)}$, $E_G=\ev{H_p(G)}$
-    \item Magnetizations $m_z$, $m_x$
-    \item Spin glass overlap
-    \begin{equation*}
-      Q_2 = \frac{1}{N} \sqrt{
-        \sum_{i,\,j} \del{
-          \ev{\sigma^z_i \sigma^z_j} -
-          \ev{\sigma^z_i} \ev{\sigma^z_j}
-        }^2
-      }
-    \end{equation*}
-    \item Analagous quantity in terms of susceptibilities
-    \begin{equation*}
-      Q_2' = \frac{1}{N} \sqrt{\sum_{i,\,j} \del{\dpd{\ev{\sigma^z_i}}{h_j}}^2}
-    \end{equation*}
 
-    \item Method should hold for finite $T$ as well
-  \end{itemize}
-  \alert{All except $Q_2$ are in principle measurable on D-Wave's Burnaby machine}
-\end{frame}
 \begin{frame}
   \frametitle{Test case: small co-Ising graphs}
   \begin{itemize}
-    \item Study pair of 13-vertex co-Ising graphs $G_{13}$, $G_{13}'$
+    \item Study pair of 13-vertex (non-isomorphic) co-Ising graphs
     \item Found to be difficult to distinguish by Vinci et al. (using
       measurements at $s \rightarrow 1$ and with $h=0$)
     \item Which $h$, $s$ give the largest difference in measured quantities?
   \end{itemize}
+  \bigskip
   \begin{columns}[t]
     \column{0.5\textwidth}
     \centering
@@ -243,7 +250,7 @@
       \tikzstyle{every node}=[circle, fill=blue, draw=blue, text=white,
         font=\scriptsize, minimum size=0.5cm, inner sep=1pt]
       \def \n {13}
-      \def \radius {2cm}
+      \def \radius {1.8cm}
       \foreach \s in {1,...,\n} {
         \node at ({360/\n * (\s - 1)}:\radius) (\s) {\bf\s};
       }
@@ -271,7 +278,7 @@
       \tikzstyle{every node}=[circle, fill=red, draw=red, text=white,
         font=\scriptsize, minimum size=0.5cm, inner sep=1pt]
       \def \n {13}
-      \def \radius {2cm}
+      \def \radius {1.8cm}
       \foreach \s in {1,...,\n} {
         \node at ({360/\n * (\s - 1)}:\radius) (\s) {\bf\s};
       }
@@ -293,11 +300,16 @@
     \end{tikzpicture}
   \end{columns}
 \end{frame}
+
+
+\section{Results and Conclusions}
+
 \begin{frame}
   \frametitle{Numerical results}
   \begin{center}
-    Absolute value of difference between $G_{13}$ and $G_{13}'$
-    \includegraphics{delta-grid}
+    Absolute value of the difference in $E_G=\ev{H_p(G)}$
+    \bigskip
+    \includegraphics{delta-Eg-big}
   \end{center}
 \end{frame}
 
@@ -320,6 +332,55 @@
     \column{0.5\textwidth}
     \includegraphics{delta-Eg}
   \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Acknowledgements}
+  \begin{itemize}
+    \item Collaborators Itay Hen, Peter Young
+    \item Walter Vinci
+    \item NASA Ames quantum group
+    \item Mohammad Amin
+  \end{itemize}
+  \vfill
+  \begin{center}
+    \huge Thank you!
+  \end{center}
+\end{frame}
+
+\appendix
+\section{\appendixname}
+
+\begin{frame}
+  \frametitle{Measurements}
+  \begin{itemize}
+    \item Energies $E=\ev{H(G)}$, $E_G=\ev{H_p(G)}$
+    \item Magnetizations $m_z$, $m_x$
+    \item Spin glass overlap
+    \begin{equation*}
+      Q_2 = \frac{1}{N} \sqrt{
+        \sum_{i,\,j} \del{
+          \ev{\sigma^z_i \sigma^z_j} -
+          \ev{\sigma^z_i} \ev{\sigma^z_j}
+        }^2
+      }
+    \end{equation*}
+    \item Analagous quantity in terms of susceptibilities
+    \begin{equation*}
+      Q_2' = \frac{1}{N} \sqrt{\sum_{i,\,j} \del{\dpd{\ev{\sigma^z_i}}{h_j}}^2}
+    \end{equation*}
+
+    \item Method should hold for finite $T$ as well
+  \end{itemize}
+  \alert{All except $Q_2$ are in principle measurable on D-Wave's Burnaby machine}
+\end{frame}
+
+\begin{frame}
+  \frametitle{More numerical results}
+  \begin{center}
+    Absolute value of difference between $G_{13}$ and $G_{13}'$
+    \includegraphics{delta-grid}
+  \end{center}
 \end{frame}
 
 %\begin{frame}[allowframebreaks]
@@ -353,5 +414,4 @@
   \end{thebibliography}
 \end{frame}
 
-\end{document}
 \end{document}
