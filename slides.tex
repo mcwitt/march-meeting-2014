@@ -113,9 +113,7 @@
       \item Special cases (e.g. trees, planar graphs) can be solved efficiently
         by classical algorithms
       \item Best known general algorithms have exponential worst-case complexity
-      \item One of only a few problems in NP not known to be solvable in
-        polynomial time or NP-complete (another being factoring)
-      \item<2> i.e. NP-incomplete (NPI)
+      \item<2> Along with factoring, ``NP-incomplete''
         \tikz[na]\node [coordinate] (inpi) {};
     \end{itemize}
 
@@ -134,7 +132,7 @@
       \draw[thick] \egg;
     \end{tikzpicture}
     \begin{tikzpicture}[red,overlay,thick,>=stealth]
-      \path[->]<2> (inpi) edge [out=0,in=-160] (npi.west);
+      \path[->]<2> (inpi) edge [out=0,in=180] (npi.west);
     \end{tikzpicture}
   \end{columns}
   \transdissolve<2>[duration=0.2]
@@ -185,7 +183,7 @@
       \tikz[na]\node [coordinate] (ih) {};
     \item<3-> Spectrum of $H_p(G)$ \alert{not} a complete invariant\ldots
   \end{itemize}
-  \begin{tikzpicture}[overlay,semithick,>=stealth]
+  \begin{tikzpicture}[overlay,thick,>=stealth]
     \path[->] (iafm) edge [out=0,in=-30] (afm);
     \path[->]<2-> (ih) edge [out=0,in=-90] (h);
   \end{tikzpicture}
@@ -216,7 +214,7 @@
     \item \alert{Hypothesis:} The quantum problem ($0<s<1$) will distinguish
         non-isomorphic graphs
   \end{itemize}
-  \begin{tikzpicture}[overlay,semithick,>=stealth]
+  \begin{tikzpicture}[overlay,thick,>=stealth]
     \path[->] (ihp) edge [out=0,in=-45] (hp);
     \path[->]<2-> (ihd) edge [out=0,in=-90] (hd);
   \end{tikzpicture}
@@ -246,7 +244,7 @@
     \column{0.5\textwidth}
     \centering
     $G_{13}$\\[1.5ex]
-    \begin{tikzpicture}[semithick]
+    \begin{tikzpicture}[thick]
       \tikzstyle{every node}=[circle, fill=blue, draw=blue, text=white,
         font=\scriptsize, minimum size=0.5cm, inner sep=1pt]
       \def \n {13}
@@ -274,7 +272,7 @@
     \column{0.5\textwidth}
     \centering
     $G_{13}'$\\[1.5ex]
-    \begin{tikzpicture}[semithick]
+    \begin{tikzpicture}[thick]
       \tikzstyle{every node}=[circle, fill=red, draw=red, text=white,
         font=\scriptsize, minimum size=0.5cm, inner sep=1pt]
       \def \n {13}
