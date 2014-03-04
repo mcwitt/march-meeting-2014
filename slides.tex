@@ -1,6 +1,8 @@
 \documentclass{beamer}
 %\documentclass[handout]{beamer}
 %\usetheme{Copenhagen}
+
+% uncomment the following two lines to add notes at right
 \usepackage{pgfpages}
 \setbeameroption{show notes on second screen=right}
 
@@ -70,11 +72,11 @@
   \begin{columns}[c]
     \column{0.27\textwidth}
     \centering
-    \includegraphics[scale=0.36]{Graph_isomorphism_a}
+    \includegraphics[scale=0.27]{Graph_isomorphism_a}
 
     \column{0.27\textwidth}
     \centering
-    \includegraphics[scale=0.36]{Graph_isomorphism_b}
+    \includegraphics[scale=0.27]{Graph_isomorphism_b}
 
     \column{0.27\textwidth}
     \centering
@@ -105,6 +107,13 @@
   \end{definition}
   There are no known general, complete invariants. Finding one would provide an
   easy solution to the GI problem!
+  \note{
+    \begin{itemize}
+      \item Trying to decide if two graphs are the same, we might look at\ldots
+      \item It turns out that all of these are insufficient (vertices, degree
+        distribution, spectrum)
+    \end{itemize}
+  }
 \end{frame}
 
 \begin{frame}
@@ -119,7 +128,6 @@
       \item<2> Along with factoring, ``NP-incomplete''
         \tikz[na]\node [coordinate] (inpi) {};
     \end{itemize}
-    \note{Factoring in BQP}
 
     \column{0.3\textwidth}
     \centering
@@ -140,6 +148,12 @@
       \path[->]<2> (inpi) edge [out=0,in=180] (npi.west);
     \end{tikzpicture}
   \end{columns}
+  \note{
+    \begin{itemize}
+      \item ``NP-incomplete'' may be an empty set
+      \item Factoring in BQP
+    \end{itemize}
+  }
 \end{frame}
 
 \begin{frame}
@@ -217,8 +231,8 @@
   \begin{itemize}[<+->]
     \item Problem Hamiltonian \tikz[na]\node [coordinate] (ihp) {};
     \item Driver Hamiltonian \tikz[na]\node [coordinate] (ihd) {};
-    \item \alert{Hypothesis:} The quantum problem ($0<s<1$) will distinguish
-        non-isomorphic graphs
+    \item \alert{Hypothesis:} The full \emph{quantum} problem ($0<s<1$) will
+      distinguish non-isomorphic graphs
   \end{itemize}
   \begin{tikzpicture}[overlay,semithick,>=stealth]
     \path[->] (ihp) edge [out=0,in=-45] (hp);
@@ -332,6 +346,12 @@
     \column{0.5\textwidth}
     \includegraphics{delta-Eg}
   \end{columns}
+  \note{
+    \begin{itemize}
+      \item D-Wave Burnaby machine can measure mid-run
+      \item Finite-$T$ expectation values?
+    \end{itemize}
+  }
 \end{frame}
 
 \begin{frame}
@@ -369,8 +389,6 @@
     \begin{equation*}
       Q_2' = \frac{1}{N} \sqrt{\sum_{i,\,j} \del{\dpd{\ev{\sigma^z_i}}{h_j}}^2}
     \end{equation*}
-
-    \item Method should hold for finite $T$ as well
   \end{itemize}
   \alert{All except $Q_2$ are in principle measurable on D-Wave's Burnaby machine}
 \end{frame}
