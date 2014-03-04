@@ -5,4 +5,4 @@ figs = $(addprefix figures/, $(figures))
 all: $(figs)
 
 %.pdf: %.svg
-	inkscape --without-gui --export-pdf="$@" "$<"
+	rsvg-convert -f pdf -o "$@" "$<"
