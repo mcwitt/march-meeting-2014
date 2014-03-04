@@ -53,7 +53,7 @@
 
 \begin{frame}
   \frametitle{Graph isomorphism (GI) problem}
-  Are two graphs really the same apart from labeling?
+  Are two graphs really the same apart from the labeling of their vertices?
   \bigskip
   \begin{columns}[T]
     \column{0.27\textwidth}
@@ -98,8 +98,7 @@
     \item number of vertices and edges
     \item degree sequence
     \item spectrum of adjacency matrix
-    \item \ldots and many more (any quantity which is invariant under
-      relabeling the vertices)
+    \item \ldots and many more (any quantity invariant under relabeling)
   \end{itemize}
   \pause
   \begin{definition}
@@ -158,21 +157,27 @@
 
 \begin{frame}
   \frametitle{GI and quantum annealing}
-    \begin{columns}
-      \column{0.6\textwidth}
-      \begin{itemize}
-        \item Hen and Young (2012):
-          Propose that the GI problem could be solved using a
-          quantum annealer
-        \item Gaitan and Clark (2013):
-          Propose adiabatic quantum algorithm for GI
-        \item Vinci et al. (2013):
-          Experimental implementation of GI algorithm using D-Wave quantum
-          annealer
-      \end{itemize}
-      \column{0.4\textwidth}
-      \includegraphics[width=\textwidth]{d_wave_one_system}
-    \end{columns}
+  \begin{columns}
+    \column{0.6\textwidth}
+    \begin{itemize}
+      \item Hen and Young (2012):
+        Propose that the GI problem could be solved using a
+        quantum annealer
+      \item Gaitan and Clark (2013):
+        Propose adiabatic quantum algorithm for GI
+      \item Vinci et al. (2013):
+        Experimental implementation of GI algorithm using D-Wave quantum
+        annealer
+    \end{itemize}
+    \column{0.4\textwidth}
+    \includegraphics[width=\textwidth]{d_wave_one_system}
+  \end{columns}
+  \note{
+    \begin{itemize}
+      \item Hen and Young put an antiferromagnetic Ising model on a graph
+      \item Gaitan and Clark take a completely different approach
+    \end{itemize}
+  }
 \end{frame}
 
 
@@ -231,7 +236,7 @@
   \begin{itemize}[<+->]
     \item Problem Hamiltonian \tikz[na]\node [coordinate] (ihp) {};
     \item Driver Hamiltonian \tikz[na]\node [coordinate] (ihd) {};
-    \item \alert{Hypothesis:} The full \emph{quantum} problem ($0<s<1$) will
+    \item \alert{Hypothesis:} The full \emph{quantum} problem ($0<s<1$) should
       distinguish non-isomorphic graphs
   \end{itemize}
   \begin{tikzpicture}[overlay,semithick,>=stealth]
@@ -248,6 +253,12 @@
         to distinguish non-isomorphic graphs
     \end{enumerate}
   \end{block}
+  \note{
+    \begin{itemize}
+      \item Don't necessarily need fully adiabatic evolution at zero $T$
+      \item Mixing with excited states may be OK, even advantageous
+    \end{itemize}
+  }
 \end{frame}
 
 \begin{frame}
@@ -349,7 +360,6 @@
   \note{
     \begin{itemize}
       \item D-Wave Burnaby machine can measure mid-run
-      \item Finite-$T$ expectation values?
     \end{itemize}
   }
 \end{frame}
@@ -373,9 +383,11 @@
 
 \begin{frame}
   \frametitle{Measurements}
+  Averages involving $\set{\sigma^z_i}$ are in principle measurable on the
+  D-Wave machine, for example\ldots
   \begin{itemize}
-    \item Energies $E=\ev{H(G)}$, $E_G=\ev{H_p(G)}$
-    \item Magnetizations $m_z$, $m_x$
+    \item Ising energy $E_G=\ev{H_p(G)}$
+    \item Longitudinal magnetization $m_z$
     \item Spin glass overlap
     \begin{equation*}
       Q_2 = \frac{1}{N} \sqrt{
@@ -390,7 +402,6 @@
       Q_2' = \frac{1}{N} \sqrt{\sum_{i,\,j} \del{\dpd{\ev{\sigma^z_i}}{h_j}}^2}
     \end{equation*}
   \end{itemize}
-  \alert{All except $Q_2$ are in principle measurable on D-Wave's Burnaby machine}
 \end{frame}
 
 \begin{frame}
