@@ -1,10 +1,11 @@
 \documentclass{beamer}
 %\documentclass[handout]{beamer}
-\usetheme{Boadilla}
+%\usetheme{Copenhagen}
 
 \usepackage{amsmath}
 \usepackage{tikz}
 \usepackage{commath}
+\usepackage{pdfpcnotes}
 
 \graphicspath{{figures/}}
 \DeclareGraphicsExtensions{.pdf,.png,.jpg}
@@ -49,7 +50,7 @@
 
 \begin{frame}
   \frametitle{Graph isomorphism (GI) problem}
-  Are two graphs really the same apart from the labeling of the vertices?
+  Are two graphs really the same apart from labeling?
   \bigskip
   \begin{columns}[T]
     \column{0.27\textwidth}
@@ -100,7 +101,7 @@
   \end{itemize}
   \pause
   \begin{definition}
-    An invariant $I$ is \alert{complete} if $I(G) = I(H) \iff G \cong H$.
+    An invariant $I$ is \alert{complete} if $I(G)=I(H) \iff G \cong H$.
   \end{definition}
   There are no known general, complete invariants. Finding one would provide an
   easy solution to the GI problem!
@@ -109,18 +110,20 @@
 \begin{frame}
   \frametitle{Complexity of the GI problem}
   \begin{columns}
-    \column{0.6\textwidth}
+    \column{0.7\textwidth}
     \begin{itemize}
       \item Special cases (e.g. trees, planar graphs) can be solved efficiently
         by classical algorithms
       \item Best known general algorithms have exponential worst-case complexity
+      \item Not known to be in P or NP-complete\ldots
       \item<2> Along with factoring, ``NP-incomplete''
         \tikz[na]\node [coordinate] (inpi) {};
     \end{itemize}
+    \pnote{Factoring in BQP}
 
-    \column{0.4\textwidth}
+    \column{0.3\textwidth}
     \centering
-    \begin{tikzpicture}[scale=1.3,semithick]
+    \begin{tikzpicture}[scale=1.2,semithick]
       \def\egg{(0,0) ellipse (1 and 2)}
       \fill[red!20] \egg;
       \begin{scope}[even odd rule]
