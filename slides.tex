@@ -1,6 +1,8 @@
 \documentclass{beamer}
 %\documentclass[handout]{beamer}
 %\usetheme{Copenhagen}
+\usepackage{pgfpages}
+\setbeameroption{show notes on second screen=right}
 
 \usepackage{amsmath}
 \usepackage{tikz}
@@ -85,7 +87,6 @@
       \end{align*}
     }
   \end{columns}
-  \transdissolve<2>[duration=0.2]
 \end{frame}
 
 \begin{frame}
@@ -118,6 +119,7 @@
       \item<2> Along with factoring, ``NP-incomplete''
         \tikz[na]\node [coordinate] (inpi) {};
     \end{itemize}
+    \note{Factoring in BQP}
 
     \column{0.3\textwidth}
     \centering
@@ -138,7 +140,6 @@
       \path[->]<2> (inpi) edge [out=0,in=180] (npi.west);
     \end{tikzpicture}
   \end{columns}
-  \transdissolve<2>[duration=0.2]
 \end{frame}
 
 \begin{frame}
@@ -233,7 +234,6 @@
         to distinguish non-isomorphic graphs
     \end{enumerate}
   \end{block}
-  \transdissolve<2>[duration=0.2]
 \end{frame}
 
 \begin{frame}
